@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoSync - Waste Management Platform</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<style>
+    :root {
+        --neon-blue: #00f3ff;
+        --neon-pink: #ff00ff;
+        --dark-bg: #0a0a0f;
+    }
+    body {
+        font-family: 'Rajdhani', sans-serif;
+        background: var(--dark-bg);
+        color: #fff;
+    }
+    .cyberpunk-border {
+        position: relative;
+        border: 2px solid var(--neon-blue);
+        box-shadow: 0 0 10px var(--neon-blue);
+    }
+    .neon-text {
+        text-shadow: 0 0 5px var(--neon-blue);
+    }
+    .chat-message {
+        background: rgba(0, 243, 255, 0.1);
+        border-left: 3px solid var(--neon-blue);
+    }
+    .glitch-effect:hover {
+        animation: glitch 0.3s linear infinite;
+    }
+    @keyframes glitch {
+        0% { transform: translate(0) }
+        20% { transform: translate(-2px, 2px) }
+        40% { transform: translate(-2px, -2px) }
+        60% { transform: translate(2px, 2px) }
+        80% { transform: translate(2px, -2px) }
+        100% { transform: translate(0) }
+    }
+</style>
+<body class="min-h-screen">
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full bg-black/90 backdrop-blur-sm z-50">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <h1 class="text-2xl font-['Orbitron'] neon-text">EcoSync</h1>
+            <div class="flex gap-4">
+                <button onclick="showSection('community')" class="glitch-effect hover:text-[var(--neon-blue)]">Community</button>
+                <button onclick="showSection('chatbot')" class="glitch-effect hover:text-[var(--neon-blue)]">ChatBot</button>
+                <button onclick="showSection('marketplace')" class="glitch-effect hover:text-[var(--neon-blue)]">Marketplace</button>
+                <button onclick="showSection('rewards')" class="glitch-effect hover:text-[var(--neon-blue)]">Rewards</button>
+                <button onclick="showSection('auth')" class="glitch-effect hover:text-[var(--neon-blue)]"><i class="bi bi-person-circle"></i></button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 pt-20">
+        <!-- Auth Section -->
+        <section id="auth" class="hidden">
+            <div class="max-w-md mx-auto cyberpunk-border p-6 mt-10">
+                <h2 class="text-2xl font-['Orbitron'] mb-6 neon-text">Login / Sign Up</h2>
+                <form id="authForm" class="space-y-4">
+                    <input type="email" placeholder="Email" class="w-full bg-black/50 border border-[var(--neon-blue)] p-2">
+                    <input type="password" placeholder="Password" class="w-full bg-black/50 border border-[var(--neon-blue)] p-2">
+                    <button type="submit" class="w-full bg-[var(--neon-blue)]/20 border border-[var(--neon-blue)] p-2 hover:bg-[var(--neon-blue)]/40">
+                        Login
+                    </button>
+                </form>
+            </div>
+        </section>
+
+        <!-- Community Section -->
+        <section id="community" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="cyberpunk-border p-4">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="font-['Orbitron']">Share Your Impact</h3>
+                    <button onclick="createPost()" class="text-[var(--neon-blue)]"><i class="bi bi-plus-circle"></i></button>
+                </div>
+                <div id="posts" class="space-y-4">
+                    <!-- Posts will be dynamically added here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Chatbot Section -->
+        <section id="chatbot" class="hidden">
+            <div class="max-w-2xl mx-auto cyberpunk-border p-4">
+                <div id="chat-messages" class="space-y-4 h-96 overflow-y-auto mb-4">
+                    <div class="chat-message p-3">
+                        <strong>EcoBot:</strong> Hello! Ask me anything about waste collection schedules and recycling!
+                    </div>
+                </div>
+                <div class="flex gap-2">
+                    <input type="text" id="chatInput" placeholder="Type your message..." 
+                           class="flex-1 bg-black/50 border border-[var(--neon-blue)] p-2">
+                    <button onclick="sendMessage()" 
+                            class="px-4 bg-[var(--neon-blue)]/20 border border-[var(--neon-blue)] hover:bg-[var(--neon-blue)]/40">
+                        Send
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Marketplace Section -->
+        <section id="marketplace" class="hidden">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="cyberpunk-border p-4">
+                    <h3 class="font-['Orbitron'] mb-4">List Your Waste Materials</h3>
+                    <form id="wasteForm" class="space-y-4">
+                        <input type="text" placeholder="Material Type" class="w-full bg-black/50 border border-[var(--neon-blue)] p-2">
+                        <input type="number" placeholder="Quantity (kg)" class="w-full bg-black/50 border border-[var(--neon-blue)] p-2">
+                        <button type="submit" class="w-full bg-[var(--neon-blue)]/20 border border-[var(--neon-blue)] p-2 hover:bg-[var(--neon-blue)]/40">
+                            List Material
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- Rewards Section -->
+        <section id="rewards" class="hidden">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="cyberpunk-border p-4">
+                    <h3 class="font-['Orbitron'] mb-4">Your Eco Points: <span class="text-[var(--neon-blue)]">500</span></h3>
+                    <div class="space-y-4">
+                        <div class="border border-[var(--neon-blue)] p-3">
+                            <h4>Recycling Champion Badge</h4>
+                            <p>Cost: 100 points</p>
+                            <button class="mt-2 px-4 py-1 bg-[var(--neon-blue)]/20 border border-[var(--neon-blue)] hover:bg-[var(--neon-blue)]/40">
+                                Claim
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Navigation
+        function showSection(sectionId) {
+            document.querySelectorAll('main section').forEach(section => section.classList.add('hidden'));
+            document.getElementById(sectionId).classList.remove('hidden');
+        }
+
+        // Initialize to community section
+        showSection('community');
+
+        // Chatbot functionality
+        function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const message = input.value;
+            if (!message) return;
+
+            const chatMessages = document.getElementById('chat-messages');
+            
+            // User message
+            chatMessages.innerHTML += `
+                <div class="chat-message p-3">
+                    <strong>You:</strong> ${message}
+                </div>
+            `;
+
+            // Bot response (simple demo)
+            const responses = [
+                "Garbage collection happens every Tuesday and Friday.",
+                "Please separate recyclables from general waste.",
+                "You can earn eco-points by recycling regularly!",
+                "Contact local vendors through our marketplace section."
+            ];
+            
+            setTimeout(() => {
+                chatMessages.innerHTML += `
+                    <div class="chat-message p-3">
+                        <strong>EcoBot:</strong> ${responses[Math.floor(Math.random() * responses.length)]}
+                    </div>
+                `;
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }, 1000);
+
+            input.value = '';
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        // Community posts
+        function createPost() {
+            const posts = document.getElementById('posts');
+            const postHTML = `
+                <div class="cyberpunk-border p-4">
+                    <div class="flex items-center gap-2 mb-3">
+                        <i class="bi bi-person-circle"></i>
+                        <span>Anonymous User</span>
+                    </div>
+                    <img src="https://source.unsplash.com/random/800x600/?recycling" class="w-full h-48 object-cover mb-3">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <i class="bi bi-heart"></i> 0
+                            <i class="bi bi-chat ms-2"></i> 0
+                        </div>
+                        <span class="text-sm text-gray-400">Just now</span>
+                    </div>
+                </div>
+            `;
+            posts.insertAdjacentHTML('afterbegin', postHTML);
+        }
+
+        // Add some initial posts
+        for (let i = 0; i < 3; i++) {
+            createPost();
+        }
+    </script>
+<script>document.body.addEventListener('wheel', e => { if (!e.ctrlKey) return; e.preventDefault(); return }, { passive: false })</script>
+	</body>
+</html>
